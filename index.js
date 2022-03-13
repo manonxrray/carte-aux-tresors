@@ -1,13 +1,12 @@
 import { readFileSync } from 'fs';
+// import infoText from './tests/info.txt'
 // import details from './info.json' assert { type: 'json' };
 
 // TODO : convert txt file to Json 
-export function textToJson() {
+export function textToJson(file) {
   let mapData = new Array();
-  // You can change the txt file path below to test other treasure map data
-  const text = './info.txt';
   // 1) First, we turn our text file into a string
-  const string = readFileSync(text, 'utf-8').toString();
+  const string = readFileSync(file, 'utf-8').toString();
   // 2) Then we split each string at the '\n' character, which returns an object of strings 
   mapData = string.split('\n');
   // 3) Let's init arrays to sort our data
@@ -28,9 +27,11 @@ export function textToJson() {
       A.push(mapData[i])
     }
   };
+
+  return mapData
 };
 
-export function createMap( info ) {
+export function createMap(info) {
   // Init a new Array which will contain our map
   let map = new Array();
   // width is the number of columns, height is the number of lines
@@ -73,6 +74,11 @@ export function createMap( info ) {
 
   return map;
 };
+
+export function move(info) {
+  const map = createMap(info);
+  return map
+}
 
 // Testing what textToJson() returns
 // console.log(textToJson());
