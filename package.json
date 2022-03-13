@@ -1,0 +1,13 @@
+{
+  "name": "carte-aux-tresors",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": "git@github.com:manonxrray/carte-aux-tresors.git",
+  "author": "<manon.gerray@gmail.com>",
+  "license": "MIT",
+  "start": "yarn start",
+  "dependencies": {
+    "FileReader": "^0.10.2"
+  }
+}
