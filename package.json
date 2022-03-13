@@ -7,7 +7,16 @@
   "author": "<manon.gerray@gmail.com>",
   "license": "MIT",
   "start": "yarn start",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
-    "FileReader": "^0.10.2"
+    "@babel/preset-env": "^7.16.11",
+    "FileReader": "^0.10.2",
+    "babel": "^6.23.0",
+    "babel-jest": "^27.5.1"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }

@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs';
-import info from './info.json' assert { type: 'json' };
+// import details from './info.json' assert { type: 'json' };
 
-// TODO : convert our txt file to Json 
-const textToJson = () => {
+// TODO : convert txt file to Json 
+export function textToJson() {
   let mapData = new Array();
   // You can change the txt file path below to test other treasure map data
   const text = './info.txt';
@@ -30,7 +30,7 @@ const textToJson = () => {
   };
 };
 
-const createMap = () => {
+export function createMap( info ) {
   // Init a new Array which will contain our map
   let map = new Array();
   // width is the number of columns, height is the number of lines
@@ -77,4 +77,4 @@ const createMap = () => {
 // Testing what textToJson() returns
 // console.log(textToJson());
 // Testing what createMap() returns
-console.log(createMap());
+// console.log(createMap(details));
