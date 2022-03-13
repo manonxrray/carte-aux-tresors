@@ -10,36 +10,59 @@ export function textToJson(file) {
   // 2) Then we split each string at the '\n' character, which returns an object of strings 
   mapData = string.split('\n');
   // 3) Let's init arrays to sort our data
-  let C = new Array();
-  let M = new Array();
-  let T = new Array();
-  let A = new Array();
+  let C = [];
+  let M = [];
+  let T = [];
+  let A = [];
 
-  // 4) Looping through our data to fill our previous arrays
+  // 4) Let's init our future data Object
+  let data = {
+    "C": C,
+    "M": M,
+    "T": T,
+    "A": A
+  };
+
+  // Function we'll use to format our data as expected
+  const format = (entry) => {
+    const newEntry = entry.slice(4).replace(/-/g, '').replace(/ /g, '').split('');
+    for (let e = 0; e < newEntry.length; e++) {
+      newEntry[e] = parseInt(newEntry[e])
+    };
+    return newEntry;
+  };
+
+  // 5) Looping through our data to fill our previous arrays and format data
   for (let i = 0; i < mapData.length; i++) {
     if (mapData[i].includes('C', 0)){
-      C.push(mapData[i])
+      C.push(format(mapData[i]));
     } else if (mapData[i].includes('M', 0)){
-      M.push(mapData[i])
+      M.push(format(mapData[i]))
     } else if (mapData[i].includes('T', 0)){
-      T.push(mapData[i])
+      T.push(format(mapData[i]))
     } else if (mapData[i].includes('A', 0)){
-      A.push(mapData[i])
+      let formatedArr = mapData[i].slice(4).split('-');
+      formatedArr[1] = parseInt(formatedArr[1]);
+      formatedArr[2] = parseInt(formatedArr[2]);
+      A.push(formatedArr)
     }
   };
 
-  return mapData
+  console.log("🚀 ~ file: index.js ~ line 55 ~ textToJson ~ data", data);
+  return data;
 };
 
 export function createMap(info) {
   // Init a new Array which will contain our map
   let map = new Array();
   // width is the number of columns, height is the number of lines
-  let mapWidth = info.C[0]
-  let mapHeight = info.C[1];
+  let mapWidth = info.C[0][0]
+  let mapHeight = info.C[0][1];
+
   let c = 0;
   let l = 0;
 
+  // Creating an empty map based on the width and height info we have
   for (l; l < mapHeight; l++){
     let tmpArray = [];
     for (c; c < mapWidth; c++){
@@ -47,7 +70,9 @@ export function createMap(info) {
     }
     c = 0;
     map.push(tmpArray)
-  }
+  };
+
+  console.log("🚀 ~ file: index.js ~ line 65 ~ createMap ~ map", map)
 
   let mountains = info.M;
   let m = 0;
@@ -75,12 +100,11 @@ export function createMap(info) {
   return map;
 };
 
-export function move(info) {
-  const map = createMap(info);
-  return map
-}
+// TODO: moving the adventurer function
+// export function move(info) {
+//   const map = createMap(info);
+//   return map
+// }
 
-// Testing what textToJson() returns
-// console.log(textToJson());
 // Testing what createMap() returns
-// console.log(createMap(details));
+console.log("🚀 ~ file: index.js ~ line 111 ~ createMap", createMap(textToJson('./tests/info.txt')));
