@@ -1,6 +1,4 @@
 import { readFileSync } from 'fs';
-// import infoText from './tests/info.txt'
-// import details from './info.json' assert { type: 'json' };
 
 // TODO : convert txt file to Json 
 export function textToJson(file) {
