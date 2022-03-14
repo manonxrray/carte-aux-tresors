@@ -1,5 +1,9 @@
 # La Carte aux Trésors
 
+## Cloning the project
+
+After you cloned the project, go to its root and type `yarn`in your command line. All packages necessary will be installed (Jest, babel).
+
 ## Launching the project
 
 The functions programmed in this project are console.logged. To test whatever file you'd like to test, please add your file to the project directory, go to the index.js file then call it in the `console.log(createMap())` (ex: `console.log(createMap('./file.txt'))`). 
