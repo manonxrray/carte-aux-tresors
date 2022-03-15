@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs';
-import { orientationTable } from './table.js';
 
 export function textToJson(file) {
   let mapData = new Array();
