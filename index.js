@@ -1,4 +1,5 @@
 import { readFileSync } from 'fs';
+import { orientationTable } from './table.js';
 
 export function textToJson(file) {
   let mapData = new Array();
@@ -102,9 +103,10 @@ export function createMap(info) {
 
   // * Now moving our adventurers and collecting their treasures ! 
 
-  return move(adventurers, map);
+  return map;
 };
 
+// ! This function is not working
 export function move(adventurers, map){
   let a = 0;
   // Init an object which will contain our adventurers data
@@ -113,13 +115,79 @@ export function move(adventurers, map){
   // Looping through our adventurers to set up their travel details
   for (a; a < adventurers.length; a++){
     let adventurer = adventurers[a][0];
-    data[adventurer] = { "position": [], "orientation": [], "actions": []};
-    data[adventurer].position.push(adventurers[a][1], adventurers[a][2]);
-    data[adventurer].orientation.push(adventurers[a][3]);
-    data[adventurer].actions.push(adventurers[a][4])
+    data[adventurer] = { "colPos": 0, "linePos": 0, "orientation": '', "actions": ''};
+    data[adventurer].colPos = adventurers[a][1];
+    data[adventurer].linePos = adventurers[a][2];
+    data[adventurer].orientation = adventurers[a][3];
+    data[adventurer].actions = adventurers[a][4];
   };
 
-  // TODO conditions and moving adventurer on the map
+  // Looping through map to store the mountains position data
+  let mountainsPos = [];
+  let i = 0;
+
+  for (i; i < map.length; i++){
+    for (let j = 0; j < map[i].length; j++){
+      if (map[i][j] === 'M'){
+        let mountain = [];
+        mountain.push(map.indexOf(map[i]), map[i].indexOf(map[i][j]));
+        mountainsPos.push(mountain);
+        mountain = []
+      };
+    };
+  };
+
+  let tempLinePos = 0;
+  let tempColPos = 0;
+
+  // Looping through adventurers data to set up their new position and orientation
+  for (let m = 0; m < Object.keys(data).length; m++){
+    let adventurer = Object.values(data)[m];
+    
+    for (let p = 0; p < Object.keys(adventurer).length; p++){
+      for (let o = 0; o < adventurer.actions.length; o++) {
+        if (adventurer.orientation === 'S' && adventurer.actions[o] === 'A'){
+          tempLinePos = adventurer.linePos +1;
+          console.log("🚀 ~ file: index.js ~ line 150 ~ move ~ tempLinePos = adventurer.linePos +1;", adventurer.linePos +1)
+        } else if (adventurer.orientation === 'N' && adventurer.actions[o] === 'A'){
+          tempLinePos = adventurer.linePos -1;
+          console.log("🚀 ~ file: index.js ~ line 155 ~ move ~ tempLinePos", tempLinePos)
+        } else if (adventurer.orientation === 'O' && adventurer.actions[o] === 'A'){
+          tempColPos = adventurer.colPos -1;
+        } else if (adventurer.orientation === 'E' && adventurer.actions[o] === 'A'){
+          tempColPos = adventurer.colPos +1;
+        } else if (adventurer.orientation === 'S' && adventurer.actions[o] === 'G'){
+          adventurer.orientation = 'E'
+        } else if (adventurer.orientation === 'S' && adventurer.actions[o] === 'D'){
+          adventurer.orientation = 'O'
+        } else if (adventurer.orientation === 'N' && adventurer.actions[o] === 'G'){
+          adventurer.orientation = 'O'
+        } else if (adventurer.orientation === 'N' && adventurer.actions[o] === 'D'){
+          adventurer.orientation = 'E'
+        } else if (adventurer.orientation === 'O' && adventurer.actions[o] === 'G'){
+          adventurer.orientation = 'S'
+        } else if (adventurer.orientation === 'O' && adventurer.actions[o] === 'D'){
+          adventurer.orientation = 'N'
+        } else if (adventurer.orientation === 'E' && adventurer.actions[o] === 'G'){
+          adventurer.orientation = 'N'
+        } else if (adventurer.orientation === 'E' && adventurer.actions[o] === 'D'){
+          adventurer.orientation = 'S'
+        };
+      };
+
+      // Comparing the temporary position with the mountains position
+      for (let c = 0; c < mountainsPos.length; c++){
+        let tempPos = [tempLinePos, tempColPos];
+        console.log("🚀 ~ file: index.js ~ line 179 ~ move ~ tempPos", tempPos)
+        if (tempPos !== mountainsPos[c]){
+          adventurer.colPos = tempColPos;
+          adventurer.linePos = tempLinePos;
+        };
+      };
+        
+    };
+  };
+
   return data;
 };
 
